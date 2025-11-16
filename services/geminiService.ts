@@ -2,7 +2,15 @@
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 import type { ShoppingItem } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+// Lazy initialize the GoogleGenAI instance to prevent app crash on load
+// if the API key is not available in the environment.
+let aiInstance: GoogleGenAI | null = null;
+const getAi = (): GoogleGenAI => {
+  if (!aiInstance) {
+    aiInstance = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+  }
+  return aiInstance;
+};
 
 export const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -15,6 +23,7 @@ export const fileToBase64 = (file: File): Promise<string> => {
 
 export const refinePromptForImageEditing = async (complexPrompt: string): Promise<string> => {
   try {
+    const ai = getAi();
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-pro',
       contents: complexPrompt,
@@ -32,6 +41,7 @@ export const refinePromptForImageEditing = async (complexPrompt: string): Promis
 
 export const editImage = async (base64Image: string, mimeType: string, prompt: string): Promise<string> => {
   try {
+    const ai = getAi();
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: {
@@ -74,6 +84,7 @@ export const editImage = async (base64Image: string, mimeType: string, prompt: s
 export const getShoppingLinks = async (base64Image: string, mimeType: string): Promise<ShoppingItem[]> => {
     const prompt = "Based on the items in this image, provide a list of 5 similar shoppable items. For each item, provide the item name, a URL to an online store, and an approximate price in USD.";
     try {
+        const ai = getAi();
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: {

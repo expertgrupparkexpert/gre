@@ -9,6 +9,7 @@ import SavedDesigns from './components/SavedDesigns';
 import { fileToBase64, editImage, getShoppingLinks, refinePromptForImageEditing } from './services/geminiService';
 import { FolderIcon, SaveIcon, CheckIcon, NewDesignIcon } from './components/icons';
 import type { Style, ChatMessage, SavedDesign, AutoSavedDesign } from './types';
+import { LOGO_BASE64 } from './assets/logo';
 
 const App: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<File | null>(null);
@@ -221,8 +222,8 @@ const App: React.FC = () => {
         />
       )}
       <header className="w-full max-w-7xl mx-auto flex justify-between items-center py-2 md:py-4">
-        <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600">
-           {originalImageBase64 ? 'Tasarım Paneli' : 'Yapay Zeka İç Mimar'}
+        <div className="flex items-center">
+          <img src={LOGO_BASE64} alt="Goods Real Estate Logo" className="h-10" />
         </div>
         <div className="flex items-center space-x-4">
             {originalImageBase64 && (

@@ -1,6 +1,7 @@
 
 import React, { useRef, useState } from 'react';
 import { UploadIcon } from './icons';
+import { LOGO_BASE64 } from '../assets/logo';
 
 interface ImageUploaderProps {
   onImageUpload: (file: File) => void;
@@ -44,6 +45,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
 
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col items-center justify-center p-8">
+      <img src={LOGO_BASE64} alt="Goods Real Estate Logo" className="h-24 mb-6" />
       <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-600 mb-2 text-center">
         Yapay Zeka Destekli İç Mimar
       </h1>
