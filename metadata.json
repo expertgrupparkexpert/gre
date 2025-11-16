@@ -1,0 +1,5 @@
+{
+  "name": "Yapay Zeka Destekli İç Mimar Danışmanı",
+  "description": "Odanızın bir fotoğrafını yükleyin, bir stil seçin ve yapay zekanın mekanınızı yeniden tasarlamasına izin verin. Tasarımı sohbet yoluyla geliştirin ve mobilya ve dekor için alışveriş bağlantıları alın.",
+  "requestFramePermissions": []
+}
