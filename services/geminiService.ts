@@ -7,7 +7,17 @@ import type { ShoppingItem } from '../types';
 let aiInstance: GoogleGenAI | null = null;
 const getAi = (): GoogleGenAI => {
   if (!aiInstance) {
-    aiInstance = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+    // In a browser environment like GitHub Pages, `process` is not defined.
+    // We need to handle this gracefully to prevent a crash on load.
+    // The API key is expected to be managed by the execution environment (like AI Studio).
+    // If process.env.API_KEY is not available, API calls will fail, but the app UI will load.
+    const apiKey = typeof process !== 'undefined' && process.env ? (process.env.API_KEY as string) : '';
+    
+    if (!apiKey) {
+      console.warn("API anahtarı bulunamadı. Yapay zeka özellikleri çalışmayacak. Lütfen ortam değişkenlerinizi kontrol edin.");
+    }
+
+    aiInstance = new GoogleGenAI({ apiKey });
   }
   return aiInstance;
 };
